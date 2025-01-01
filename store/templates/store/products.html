@@ -1,0 +1,49 @@
+{% extends "store/main.html" %}
+{% load static %}
+
+{% block content %}
+
+<h3 class='d-flex justify-content-center mb-5 mt-3'>Products</h3>
+
+<div class=' p-main row mt-2  justify-content-center'>
+    {% comment %} products render with loop  {% endcomment %}
+    {% if messages %}
+    <div class="container-fluid  mt-3">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <div class='text-danger'>{{search_error}}</div>
+    <div class='text-danger'>{{not_available}}</div>
+
+    
+
+    {% for item in products  %}
+    <div class='col-lg-3  img-div m-1 d-flex justify-content-center align-items-center'> 
+    <a style="text-decoration:none;" href="{% url "product_detail" item.id %}"> 
+        <div class='card'>
+          <img class='thumbnail ' src="{{item.image.url}}" alt="">
+          <div class='img-text box-element product'>
+              <h6><strong>{{item.name}}</strong></h6>
+              <p style='display:inline-block; color:black; float:right;'>${{item.price|floatformat:2}}</p><br>
+              <hr>
+              <a class='btn btn-outline-success mr-2' style='float:right;' href="{% url "add_to_cart" item.id  %}">Add to Cart</a>
+              
+              <a class='btn btn-outline-danger mr-2'  style='float:right;' href="{% url "add_wishlist" item.id %}"><img  style='width:20px;'src="{% static "images/wishlist-2.png" %}" alt=""></a>
+          </div>
+        </div>  
+    </a>
+
+    </div>
+    {% endfor %}
+
+    </div> 
+</div>
+
+{% endblock content %}
+

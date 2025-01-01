@@ -1,0 +1,29 @@
+{% extends "store/main.html" %}
+{% load static %}
+
+{% block title %}
+<title>signupn</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="reg_div d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <form method="POST" class='auth_form '>
+        <h3 class='d-flex justify-content-center '> <strong>Sign Up</strong> </h3>
+    {% csrf_token %}
+    
+        {{form.as_p}}
+        <p class='text-danger'>{{pass_error}}</p>
+        <p class='text-danger'>{{user_error}}</p>
+        <p class='text-danger'>{{email_error}}</p>
+
+    
+    
+    <button type='submit'>signup</button>
+    <d>already have a account <a href="{% url "login" %}">login</a></p>
+    
+</form>
+
+</div>
+
+{% endblock content%}

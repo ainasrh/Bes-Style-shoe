@@ -1,0 +1,76 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block title %}
+<title>cart</title>
+{% endblock title %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box-element	">
+
+				<a  class="btn btn-outline-dark" href="{% url 'products' %}">&#x2190; Continue Shopping</a>
+
+				<br>
+				<br>
+				<table class="table">
+					<tr>
+						
+						<th><h5  style="float:right;" class='ml-4'>Items: <strong>{{cart_count}}</strong></h5></th>
+						<th></th>
+						<th class='mt-3'>
+							<a  style="float:right;" class="btn btn-success " href="{% url 'checkout' %}">Checkout</a>
+							<h5  style="float:right; margin:9px;" class='mr-4'>Total:<strong> ${{cart_total}}</strong></h5>
+							
+						</th>
+					
+					</tr>
+				</table>
+
+			</div>
+			{% if messages %}
+			<div class="">
+				{% for message in messages %}
+					<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+						{{ message }}
+						
+					</div>
+				{% endfor %}
+			</div>
+			{% endif %}
+
+			<br>
+			<div class="box-element">
+				<div class="cart-row">
+					<div style="flex:2"></div>
+					<div style="flex:2"><strong>Item</strong></div>
+					<div style="flex:1"><strong>Price</strong></div>
+					<div style="flex:1"><strong>Quantity</strong></div>
+					<div style="flex:1"><strong>Total</strong></div>
+					<div style="flex:1"></div>
+
+				</div>
+				
+				{% for item in cart_items  %}
+				<div class="cart-row">
+					<div style="flex:2"><img class="row-image" src="{{item.product.image.url}}"></div>
+					<div style="flex:2"><p>{{item.product.name}}</p></div>
+					<div style="flex:1"><p>{{item.product.price}}</p></div>
+					<div style="flex:1">
+						<p class="quantity">{{item.quantity}}</p>
+						<div class="quantity">
+							<a href="{% url "increment_quantity" item.product.id %}"><img class="chg-quantity" src="{% static  'images/arrow-up.png' %}"></a>
+					
+							<a href="{% url "decrement_quantity" item.product.id %}"><img class="chg-quantity" src="{% static  'images/arrow-down.png' %}"></a>
+						</div>
+					</div>
+					<div style="flex:1"><p>${{item.product.price}}</p></div>
+					<div style='flex:1'><a  style="float:right; padding:5px 10px ;" class="btn btn-danger mr-2" href="{% url 'remove_cart' item.id %}">Delete from cart </a></div>
+				</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+{% endblock content %}
+

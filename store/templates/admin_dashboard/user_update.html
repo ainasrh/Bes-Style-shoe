@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Update Form</title>
+    <style>
+        .user-update-form-container {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 12px;
+            width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+        
+        .form-title {
+            font-size: 20px;
+            color: #444;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .form-row {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-label {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        .form-field {
+            font-size: 16px;
+            color: #333;
+            padding: 8px 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        
+        .form-field input {
+            width: 100%;
+            border: none;
+            outline: none;
+        }
+        
+        .form-footer {
+            text-align: center;
+        }
+        
+        .btn-submit {
+            background: #5a5a5a;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-submit:hover {
+            background: #444;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="user-update-form-container">
+        <form method="POST">
+            {% csrf_token %}
+            <h2 class="form-title">Update User</h2>
+            <div class="form-row">
+                <label for="id_id" class="form-label">User ID:</label>
+                <div class="form-field">{{ form.id }}</div>
+            </div>
+            <div class="form-row">
+                <label for="id_username" class="form-label">Username:</label>
+                <div class="form-field">{{ form.username }}</div>
+            </div>
+            <div class="form-row">
+                <label for="id_email" class="form-label">Email:</label>
+                <div class="form-field">{{ form.email }}</div>
+            </div>
+            <div class="form-footer">
+                <button type="submit" class="btn-submit">Save Changes</button>
+            </div>
+        </form>
+    </div>
+    
+</body>
+</html>

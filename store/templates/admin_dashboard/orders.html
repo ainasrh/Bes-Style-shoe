@@ -1,0 +1,44 @@
+{% extends "admin_dashboard/index.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static "css/admin.css" %}">
+<div class="product-table-container">
+    <table class="product-table">
+        <thead>
+            <tr>
+                <th><strong>Product Image</strong></th>
+                <th><strong>Product Name</strong></th>
+                <th><strong>Order Id</strong></th>
+                <th><strong>Quantity</strong></th>
+                <th><strong>Price</strong></th>
+
+               
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                  </div>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in orders %}
+            <tr class="product-row">
+                <td class="product-image"><img src="{{ item.product.image.url }}" alt="Product Image" class="product-img"></td>
+                <td class="product-name">{{ item.product }}</td>
+                <td class="product-price">{{ item.order }}</td>
+                <td class="product-stock">{{ item.quantity }}</td>
+                <td class="product-stock">{{ item.product.price }}</td>
+                
+                {% comment %} <td class="actions">
+                    <a href="{% url "update" item.id %}" class="btn btn-primary">Edit</a>
+                    <a href="{% url "delete" item.id %}" class="btn btn-danger">Delete</a>
+                </td> {% endcomment %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

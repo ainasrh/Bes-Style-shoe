@@ -1,0 +1,85 @@
+{% extends "store/main.html" %}
+{% load static %}
+
+{% block title %}
+<title>checkout </title>
+{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        
+        <div class="col-lg-6">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4">Shipping Information</h4>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input required class="form-control" type="text" name="name" placeholder="Full Name">
+                        </div>
+                        <hr>
+                        <h5 class="mb-3">Shipping Details</h5>
+                        <div class="form-group mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input class="form-control" type="text" name="address" placeholder="Street Address">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="city" class="form-label">City</label>
+                            <input class="form-control" type="text" name="city" placeholder="City">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="state" class="form-label">State</label>
+                            <input class="form-control" type="text" name="state" placeholder="State">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="zipcode" class="form-label">Zipcode</label>
+                            <input class="form-control" type="text" name="zipcode" placeholder="Zipcode">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="country" class="form-label">Country</label>
+                            <input class="form-control" type="text" name="country" placeholder="Country">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Continue</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+      
+        <div class="col-lg-6">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4">Order Summary</h4>
+                    <a class="btn btn-outline-secondary btn-sm mb-3" href="{% url 'cart' %}">
+                        &#x2190; Back to Cart
+                    </a>
+                    <div class="cart-column">
+                        {% for item in products %}
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="{{item.product.image.url}}" alt="" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1">{{ item.product.name }}</h6>
+                                <p class="text-muted mb-0">Price: ${{ item.product.price }} | Qty: {{ item.quantity }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    <h5 class="d-flex justify-content-between">
+                        <span>Items:</span> 
+                        <span>{{ checkout_count }}</span>
+                    </h5>
+                    <h5 class="d-flex justify-content-between">
+                        <span>Total:</span> 
+                        <span>${{ checkout_sum }}</span>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
