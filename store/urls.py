@@ -1,8 +1,14 @@
 from django.urls import path,include
 from . import views as v
+from .api_views import *
+from .email_utils import verify_email
 
 
 urlpatterns = [
+
+    # VERIFY EMAIL 
+
+
     path('',v.store,name='store'),
     path('signup/',v.register,name='signup'),
     path('login/',v.login_view,name='login'),
@@ -29,6 +35,8 @@ urlpatterns = [
     path('user_update/<int:user_id>/',v.user_update,name='update_user'),
     path('orders/',v.orders_view,name='orders'),
     path('create/',v.create,name='create'),
+
+    # API URLS
 
     
 

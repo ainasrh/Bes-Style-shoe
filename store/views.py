@@ -273,15 +273,15 @@ def checkout(request):
             )
 
      
-        ShippingAddress.objects.create(
-            customer=request.user,
-            order=order,
-            name=name,
-            address=address,
-            city=city,
-            state=state,
-            zipcode=zipcode
-        )
+        # ShippingAddress.objects.create(
+        #     customer=request.user,
+        #     order=order,
+        #     name=name,
+        #     address=address,
+        #     city=city,
+        #     state=state,
+        #     zipcode=zipcode
+        # )
 
     
         cart_items.delete()

@@ -1,4 +1,4 @@
-{% extends "store/main.html" %}
+d{% extends "store/main.html" %}
 {% load static %}
 
 {% block content %}
@@ -32,7 +32,7 @@
               <h6><strong>{{item.name}}</strong></h6>
               <p style='display:inline-block; color:black; float:right;'>${{item.price|floatformat:2}}</p><br>
               <hr>
-              <a class='btn btn-outline-success mr-2' style='float:right;' href="{% url "add_to_cart" item.id  %}">Add to Cart</a>
+              <a class='btn btn-outline-success mr-2' style='float:right;' href="{% url "add_to_cart" item.id %}">Add to Cart</a>
               
               <a class='btn btn-outline-danger mr-2'  style='float:right;' href="{% url "add_wishlist" item.id %}"><img  style='width:20px;'src="{% static "images/wishlist-2.png" %}" alt=""></a>
           </div>

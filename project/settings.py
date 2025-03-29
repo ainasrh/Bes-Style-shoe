@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +29,7 @@ SECRET_KEY = 'django-insecure-ta@r5dh_29uqlt%!g5t5=2m)m3_v&ugs&pu+w^qpuhui_dm3!y
 DEBUG = True
 
 ALLOWED_HOSTS = []
+AUTH_USER_MODEL= 'store.User'
 
 
 # Application definition
@@ -40,9 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store',
     'rest_framework',    
+    'rest_framework_simplejwt',
+    'corsheaders',
+    'storages'
+
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,6 +58,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+# CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS=[
+    "http://localhost:5000",
+]
+
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "authorization",
+    "X-CSRFToken",
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -60,6 +79,7 @@ TEMPLATES = [
         'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
+            
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -80,8 +100,12 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE':'django.db.backends.postgresql',
+        'NAME':'besstyledb',  
+        'USER':'mysuperuser',  
+        'PASSWORD':'mysuperuser',  
+        'HOST':'shoe-ecommerce.cdcm4mu0kxwz.ap-south-1.rds.amazonaws.com',  
+        'PORT': '5432',  
     }
 }
 
@@ -125,10 +149,70 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static')
 ]
 
-MEDIA_ROOT= os.path.join(BASE_DIR/ 'media')
-MEDIA_URL='/media/'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
+# MEDIA_URL='/media/'
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES':('Bearer',),
+    'AUTH_HEADER_NAME':'HTTP_AUTHORIZATION',
+    'SIGNING_KEY':SECRET_KEY,
+
+#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+#     'ALGORITHM': 'HS256',
+#     'SIGNING_KEY': SECRET_KEY,
+#     'AUTH_HEADER_TYPES': ('Bearer',),
+
+}
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = "ainasrhmn@gmail.com"
+EMAIL_HOST_PASSWORD = "aref zubc qste akmr"
+DEFAULT_FROM_EMAIL=EMAIL_HOST_USER
+
+# RAZORPAY
+RAZORPAY_KEY_ID="rzp_test_VYiv6q9vw6vBQa"
+RAZORPAY_SECRET_KEY="v8jmR1sIaBVbwe7n4f9XJoU5"
+
+# AWS S3
+from decouple import config
+
+AWS_ACCESS_KEY_ID =config("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY =config("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME =config("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_SIGNATURE_NAME = "s3v4"
+AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME') 
+AWS_S3_FILE_OVERWRITE=False
+AWS_DEFAULT_ACL=None
+AWS_S3_VERIFY=True
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+AWS_S3_CUSTOM_DOMAIN=config("AWS_S3_CUSTOM_DOMAIN")
+
+ 
+# AWS_S3_OBJECT_PARAMETERS = {
+#     'CacheControl': 'max-age=86400',
+# }

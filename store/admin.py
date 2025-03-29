@@ -6,9 +6,12 @@ from . import models
 @admin.register(models.Products)
 class ProductsAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'image','details','stock','size')
-
+    
+admin.site.register(models.User)
 admin.site.register(models.Order)
 admin.site.register(models.OrderItem)
-admin.site.register(models.ShippingAddress)
+# admin.site.register(models.ShippingAddress)
 admin.site.register(models.WishList)
+admin.site.register(models.Cart)
+admin.site.register(models.CartItem)
 
